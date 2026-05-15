@@ -21,6 +21,8 @@
 <meta name="twitter:description" content="Наклейки от 10 штук, от 10₽, от 3 дней. Расчёт за 15 минут!">
 <meta name="twitter:image" content="https://sweet-madeleine-copy.vercel.app/images/og-preview.jpg">
 
+<!-- TODO: paste real Яндекс.Метрика counter snippet here (audit ЖЕЛАТЕЛЬНО #10) — register at https://metrika.yandex.ru and configure goals: form submit, tel click, Telegram click -->
+
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -1409,6 +1411,27 @@ footer {
 .footer-tg:hover svg { color: #5cc4eb; }
 
 /* ════════════════════════════════
+   ABOUT
+════════════════════════════════ */
+#about .section-head { margin-bottom: 32px; }
+.about-content {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.about-content p {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .about-content p { font-size: 14.5px; text-align: left; }
+}
+
+/* ════════════════════════════════
    FAQ
 ════════════════════════════════ */
 .faq-section {
@@ -2246,6 +2269,19 @@ footer {
 </section>
 
 <!-- ══════════════════ OFFER ══════════════════ -->
+<!-- ══════════════════ ABOUT ══════════════════ -->
+<section id="about" class="section-wrap">
+  <div class="section-head center">
+    <div class="section-label">О нас</div>
+    <h2 class="section-title">Кто мы <em>такие</em></h2>
+  </div>
+  <!-- TODO: fill real founding year and equipment names (audit ЖЕЛАТЕЛЬНО #12) -->
+  <div class="about-content">
+    <p>SMS — производство наклеек и стикеров в Москве. За время работы мы выполнили более 12 000 заказов для малого бизнеса, handmade-мастеров и крупных брендов по всей России.</p>
+    <p>Работаем на профессиональном оборудовании. Используем только проверенные материалы — винил, полипропилен, глянцевая и матовая ламинация, УФ-лак.</p>
+  </div>
+</section>
+
 <section id="offer" class="offer-section">
   <div class="offer-inner">
     <div class="section-head center">
@@ -2260,7 +2296,7 @@ footer {
         <div class="offer-thumb offer-photo">
           <picture>
               <source srcset="images/offer-surface.webp" type="image/webp">
-              <img src="images/offer-surface.jpg" alt="Большие наклейки для брендинга витрин и упаковки">
+              <img src="images/offer-surface.jpg" loading="lazy" alt="Большие наклейки для брендинга витрин и упаковки">
             </picture>
         </div>
         <div class="offer-body">
@@ -2273,7 +2309,7 @@ footer {
         <div class="offer-thumb offer-photo">
           <picture>
               <source srcset="images/offer-brand.webp" type="image/webp">
-              <img src="images/offer-brand.jpg" alt="3D стикеры объёмные и яркие на заказ">
+              <img src="images/offer-brand.jpg" loading="lazy" alt="3D стикеры объёмные и яркие на заказ">
             </picture>
         </div>
         <div class="offer-body">
@@ -2286,7 +2322,7 @@ footer {
         <div class="offer-thumb offer-photo">
           <picture>
               <source srcset="images/offer-3d.webp" type="image/webp">
-              <img src="images/offer-3d.jpg" alt="Наклейки на стекло металл пластик любую поверхность">
+              <img src="images/offer-3d.jpg" loading="lazy" alt="Наклейки на стекло металл пластик любую поверхность">
             </picture>
         </div>
         <div class="offer-body">
