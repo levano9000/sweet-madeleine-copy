@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMS — что мы сделали</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --red: #E8192C;
+  --purple: #7B2FBE;
+  --purple-light: #9B5FDE;
+  --yellow: #FFD600;
+  --bg-dark: #0d0619;
+  --bg-purple: #1a0a2e;
+  --text-dark: #110820;
+  --text-muted: #4a5568;
+  --gray-bg: #f5f3ff;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: #fff;
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative;
+  min-height: 60vh;
+  padding: 100px 24px 80px;
+  background: var(--bg-dark);
+  color: #fff;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 65% 60% at 20% 30%, rgba(123,47,190,0.35), transparent 65%),
+    radial-gradient(ellipse 55% 50% at 85% 75%, rgba(232,25,44,0.20), transparent 70%);
+  pointer-events: none;
+}
+.hero-inner {
+  position: relative;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  background: rgba(255,214,0,0.08);
+  border: 1px solid rgba(255,214,0,0.25);
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 24px;
+}
+.eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); }
+h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: clamp(40px, 6.5vw, 80px);
+  line-height: 0.92;
+  letter-spacing: -1.8px;
+  margin-bottom: 24px;
+}
+h1 em { font-style: normal; color: var(--yellow); }
+.lead {
+  font-size: clamp(15px, 1.5vw, 18px);
+  line-height: 1.6;
+  color: rgba(255,255,255,0.65);
+  max-width: 640px;
+  margin-bottom: 40px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  max-width: 760px;
+  margin-top: 12px;
+}
+@media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.stat-num {
+  display: block;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1;
+  color: #fff;
+  letter-spacing: -1.5px;
+  margin-bottom: 6px;
+}
+.stat-num.accent { color: var(--yellow); }
+.stat-label {
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+/* ─── SECTIONS ─── */
+.section {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 96px 24px;
+}
+.section-head { margin-bottom: 48px; }
+.section-tag {
+  display: inline-block;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--purple);
+  background: rgba(123,47,190,0.08);
+  padding: 6px 12px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+h2 {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: clamp(28px, 3.8vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -1px;
+  margin-bottom: 12px;
+}
+h2 em { font-style: normal; color: var(--purple); }
+.section-sub {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 720px;
+}
+
+/* ─── PHASE GRID ─── */
+.phases {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+@media (max-width: 800px) { .phases { grid-template-columns: 1fr; } }
+.phase {
+  background: #fff;
+  border: 1px solid #eee5fb;
+  border-radius: 22px;
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .25s;
+}
+.phase:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(123,47,190,0.10);
+  border-color: rgba(123,47,190,0.18);
+}
+.phase__num {
+  position: absolute;
+  top: -8px;
+  right: 12px;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: clamp(96px, 11vw, 148px);
+  line-height: 0.85;
+  letter-spacing: -5px;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(123,47,190,0.13);
+  pointer-events: none;
+}
+.phase__tag {
+  position: relative;
+  display: inline-block;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent-color, var(--purple));
+  background: var(--accent-bg, rgba(123,47,190,0.08));
+  padding: 5px 11px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+.phase h3 {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 800;
+  font-size: 19px;
+  letter-spacing: -0.4px;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  position: relative;
+}
+.phase ul {
+  list-style: none;
+  position: relative;
+}
+.phase li {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-muted);
+  padding-left: 18px;
+  margin-bottom: 8px;
+  position: relative;
+}
+.phase li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--accent-color, var(--purple));
+  opacity: 0.65;
+}
+
+.phase--red    { --accent-color: var(--red);    --accent-bg: rgba(232,25,44,0.08); }
+.phase--purple { --accent-color: var(--purple); --accent-bg: rgba(123,47,190,0.08); }
+.phase--yellow { --accent-color: #c79a00;       --accent-bg: rgba(255,214,0,0.18); }
+.phase--green  { --accent-color: #16a34a;       --accent-bg: rgba(22,163,74,0.10); }
+
+/* ─── HIGHLIGHTS ─── */
+.highlights {
+  background: var(--gray-bg);
+  padding: 96px 0;
+}
+.highlight-grid {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 18px;
+}
+@media (max-width: 900px) {
+  .highlight-grid { grid-template-columns: 1fr 1fr; }
+  .highlight-hero { grid-column: span 2; }
+}
+@media (max-width: 600px) {
+  .highlight-grid { grid-template-columns: 1fr; }
+  .highlight-hero, .highlight-mid, .highlight-sm { grid-column: auto !important; }
+}
+.h-card {
+  background: #fff;
+  border-radius: 22px;
+  padding: 28px 26px;
+  border: 1px solid rgba(0,0,0,0.04);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.highlight-hero {
+  grid-column: span 1;
+  grid-row: span 2;
+  background: linear-gradient(135deg, #faf7ff 0%, #efe6ff 60%, #fff 100%);
+  min-height: 320px;
+}
+.highlight-hero::after {
+  content: '';
+  position: absolute;
+  width: 320px; height: 320px;
+  right: -80px; bottom: -120px;
+  background: radial-gradient(circle, rgba(123,47,190,0.16), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.highlight-mid {
+  grid-column: span 2;
+  background: linear-gradient(135deg, #fff5f5 0%, #fff 75%);
+  min-height: 170px;
+}
+@media (max-width: 900px) { .highlight-mid { grid-column: span 2; } }
+.highlight-mid::after {
+  content: '';
+  position: absolute;
+  width: 200px; height: 200px;
+  right: -50px; top: -80px;
+  background: radial-gradient(circle, rgba(232,25,44,0.10), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.h-tag {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 10.5px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
+}
+.h-tag.t-purple { color: var(--purple); }
+.h-tag.t-red    { color: var(--red); }
+.h-tag.t-yellow { color: #c79a00; }
+.h-tag.t-green  { color: #16a34a; }
+.h-num {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: clamp(72px, 9vw, 132px);
+  line-height: 0.85;
+  letter-spacing: -4px;
+  margin: 6px 0 14px;
+  position: relative;
+  z-index: 1;
+}
+.h-num.n-purple { color: var(--purple); }
+.h-num.n-red    { color: var(--red); }
+.h-card h3 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 8px;
+  position: relative;
+  z-index: 1;
+}
+.h-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  position: relative;
+  z-index: 1;
+}
+
+/* small accent posters (mimic the bento ВИЗУАЛ / СТОЙКИЕ) */
+.h-card--poster {
+  background: #ECECEC;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 22px 14px;
+}
+.h-card--poster h3 {
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 900;
+  font-size: clamp(20px, 2.4vw, 32px);
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+  text-transform: uppercase;
+  margin: 0;
+}
+.h-card--poster.poster-yellow h3 { color: #F5CC00; }
+.h-card--poster.poster-green  h3 { color: #16a34a; }
+
+/* ─── CTA ─── */
+.cta {
+  text-align: center;
+  padding: 96px 24px;
+  background: var(--bg-dark);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.cta::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 100%, rgba(123,47,190,0.30), transparent 70%);
+  pointer-events: none;
+}
+.cta-inner { position: relative; max-width: 720px; margin: 0 auto; }
+.cta h2 { color: #fff; margin-bottom: 14px; }
+.cta h2 em { color: var(--yellow); }
+.cta p { color: rgba(255,255,255,0.55); margin-bottom: 32px; font-size: 15px; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 30px;
+  background: linear-gradient(135deg, var(--red), #b80f1f);
+  color: #fff;
+  font-family: 'Unbounded', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+  border-radius: 14px;
+  box-shadow: 0 6px 22px rgba(232,25,44,0.45);
+  transition: transform .2s, box-shadow .25s, filter .25s;
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 10px 30px rgba(232,25,44,0.55); }
+.btn svg { width: 16px; height: 16px; }
+
+footer {
+  background: #080513;
+  color: rgba(255,255,255,0.4);
+  text-align: center;
+  padding: 28px 24px;
+  font-size: 12px;
+}
+footer a { color: rgba(255,255,255,0.65); }
+</style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="dot"></span>Sweet Madeleine · отчёт о работе</div>
+    <h1>Скопировали лендинг и&nbsp;<em>пересобрали</em> его<br>в полноценный сайт</h1>
+    <p class="lead">
+      От зеркала Netlify-страницы до production-домена с brand-логотипом, аудитом, новой типографикой, восемью продуктовыми итерациями и автодеплоем — короткая хроника того, что было сделано в проекте.
+    </p>
+    <div class="stats">
+      <div>
+        <span class="stat-num accent">25+</span>
+        <span class="stat-label">Коммитов в main</span>
+      </div>
+      <div>
+        <span class="stat-num">10</span>
+        <span class="stat-label">Секций сайта</span>
+      </div>
+      <div>
+        <span class="stat-num">3</span>
+        <span class="stat-label">Раунда аудита</span>
+      </div>
+      <div>
+        <span class="stat-num accent">1</span>
+        <span class="stat-label">Auto-deploy pipeline</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PHASES ─── -->
+<section class="section">
+  <div class="section-head">
+    <div class="section-tag">Хроника</div>
+    <h2>Шесть фаз — <em>от копии до продакшена</em></h2>
+    <p class="section-sub">Каждая фаза — это связный блок правок: одни общие настройки, одна цель, один проход по коду. Внизу — финальный CTA с продовой ссылкой.</p>
+  </div>
+
+  <div class="phases">
+
+    <article class="phase phase--purple">
+      <div class="phase__num">01</div>
+      <span class="phase__tag">Фундамент</span>
+      <h3>Скопировали сайт<br>и подняли pipeline</h3>
+      <ul>
+        <li>Зеркало Netlify-страницы в локальный <code>~/Desktop/проекты/sweet-madeleine-copy/</code></li>
+        <li>Git-репо <code>levano9000/sweet-madeleine-copy</code> на GitHub (private)</li>
+        <li>Vercel-проект подключён к репо — push в <code>main</code> = автодеплой на прод</li>
+        <li>Изолированный локальный сервер на <code>:8765</code> для превью без катания на прод</li>
+      </ul>
+    </article>
+
+    <article class="phase phase--red">
+      <div class="phase__num">02</div>
+      <span class="phase__tag">Аудит · СРОЧНО</span>
+      <h3>Закрыли критические проблемы</h3>
+      <ul>
+        <li>Спрятали нерабочую Telegram-CTA в Портфолио — placeholder с TODO до реального URL</li>
+        <li>Email везде заменён с Gmail на корпоративный заглушку <code>info@sms-print.ru</code></li>
+        <li>Создан <code>robots.txt</code> и <code>sitemap.xml</code> с production-доменом</li>
+        <li>Запушено и автоматически выкатано на прод одним прыжком</li>
+      </ul>
+    </article>
+
+    <article class="phase phase--yellow">
+      <div class="phase__num">03</div>
+      <span class="phase__tag">Аудит · ВАЖНО</span>
+      <h3>SEO, доверие и&nbsp;структура</h3>
+      <ul>
+        <li>9 alt-текстов переписаны под ключевые слова из ТЗ</li>
+        <li>Добавлена секция FAQ с аккордеоном и линком в навигацию</li>
+        <li>JSON-LD Schema.org LocalBusiness в <code>&lt;head&gt;</code></li>
+        <li>Canonical, og:image, og:url, twitter:card meta-теги</li>
+        <li>Блок юридических реквизитов в подвал</li>
+      </ul>
+    </article>
+
+    <article class="phase phase--green">
+      <div class="phase__num">04</div>
+      <span class="phase__tag">Аудит · ЖЕЛАТЕЛЬНО</span>
+      <h3>Качество и&nbsp;производительность</h3>
+      <ul>
+        <li>Все эмодзи (📦 👁️ ⚡ 💪 ✕ ✅ ⏳ 📎 🚀 🚚) заменены на SVG-иконки</li>
+        <li><code>loading="lazy"</code> на portfolio- и offer-картинках</li>
+        <li><code>rel="noopener"</code> на всех Telegram-анкорах</li>
+        <li>Заглушка под Яндекс.Метрику в <code>&lt;head&gt;</code></li>
+        <li>Секция «Кто мы такие» / About с фирменным фоном</li>
+      </ul>
+    </article>
+
+    <article class="phase phase--purple">
+      <div class="phase__num">05</div>
+      <span class="phase__tag">Дизайн</span>
+      <h3>Логотип, лого-поле,<br>фирменная палитра</h3>
+      <ul>
+        <li>Тестировали с Sweet Medeleine логотипом, перешли на финальный SMS-logo</li>
+        <li>Снят кремовый фон у PNG через alpha-strip с soft falloff</li>
+        <li>Логотип в подвале × 2 крупнее, центрирован над описанием</li>
+        <li>Cookie-баннер с фирменными цветами + localStorage-persist</li>
+        <li>Spotlight cursor: фиолетовый на светлых секциях, белый на тёмных</li>
+      </ul>
+    </article>
+
+    <article class="phase phase--red">
+      <div class="phase__num">06</div>
+      <span class="phase__tag">Продуктовая итерация</span>
+      <h3>Hero, bento, стикеры,<br>порядок секций</h3>
+      <ul>
+        <li>Hero с ротатором: 3D СТИКЕРОВ → ЭТИКЕТОК → СТИКЕРПАКОВ</li>
+        <li>Bento-вёрстка преимуществ: цифры 10 и 15 как акценты, постеры ВИЗУАЛ и СТОЙКИЕ</li>
+        <li>Offer-карточки переодеты в стикеры с поворотом и mouse-tilt</li>
+        <li>Steps: контурные 01/02/03 вместо красных бейджей с проводом</li>
+        <li>Reviews: glow на hover + анимация кавычки</li>
+        <li>Порядок секций: hero → продукция → преимущества → портфолио → отзывы → как работаем → о нас → FAQ → форма</li>
+        <li>Реальные реквизиты <strong>ИП Шумов Е.К.</strong> в подвале</li>
+      </ul>
+    </article>
+
+  </div>
+</section>
+
+<!-- ─── HIGHLIGHTS BENTO ─── -->
+<section class="highlights">
+  <div class="section" style="padding: 0 0 48px; max-width: 1120px;">
+    <div class="section-head" style="padding: 0 24px;">
+      <div class="section-tag">Изюм</div>
+      <h2>Несколько <em>финальных приёмов</em></h2>
+      <p class="section-sub">Из множества мелких правок — короткий витринный набор того, что вошло в финальную версию сайта и что хорошо считывается с первого взгляда.</p>
+    </div>
+  </div>
+
+  <div class="highlight-grid">
+    <div class="h-card highlight-hero">
+      <span class="h-tag t-purple">Главное</span>
+      <div class="h-num n-purple">10<span style="font-size:.32em;color:var(--text-muted);letter-spacing:0;font-weight:700;">&nbsp;штук</span></div>
+      <h3>Bento-преимущества с&nbsp;цифрами-героями</h3>
+      <p>Большая лиловая «10 штук» (минимальный тираж) + кремовая «15 мин» (расчёт стоимости) — числа сами стали визуальным акцентом без иконок-якорей.</p>
+    </div>
+
+    <div class="h-card highlight-mid">
+      <span class="h-tag t-red">15 минут</span>
+      <div class="h-num n-red" style="font-size: clamp(48px, 6vw, 84px); margin: 0 0 8px;">15<span style="font-size:.4em;color:var(--text-muted);font-weight:700;">&nbsp;мин</span></div>
+      <h3>Расчёт стоимости</h3>
+      <p>Анимированный счётчик от 0 до значения при первом появлении в viewport, через IntersectionObserver. Подкрепляет УТП визуально.</p>
+    </div>
+
+    <div class="h-card h-card--poster poster-yellow">
+      <h3>Визуал<br>до печати</h3>
+    </div>
+
+    <div class="h-card h-card--poster poster-green">
+      <h3>Стойкие<br>материалы</h3>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta">
+  <div class="cta-inner">
+    <h2>Готовый сайт <em>уже в продакшене</em></h2>
+    <p>Каждый push в <code style="color:var(--yellow);background:rgba(255,214,0,0.08);padding:2px 6px;border-radius:6px;">main</code> автоматически выкатывается через Vercel — итерации идут без ручных деплоев.</p>
+    <a class="btn" href="https://sweet-madeleine-copy.vercel.app/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      Открыть прод
+    </a>
+  </div>
+</section>
+
+<footer>
+  © 2026 SMS · <a href="https://github.com/levano9000/sweet-madeleine-copy" target="_blank" rel="noopener">GitHub</a> · <a href="https://sweet-madeleine-copy.vercel.app/" target="_blank" rel="noopener">vercel.app</a>
+</footer>
+
+</body>
+</html>
