@@ -379,48 +379,6 @@ a { color: inherit; text-decoration: none; }
   .hero-rotator__word { transition: none; }
 }
 
-/* Sticker tape ribbon under the hero */
-.hero-tape {
-  position: relative;
-  background: linear-gradient(180deg, #0d0619 0%, #100722 100%);
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  overflow: hidden;
-  padding: 14px 0;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-          mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-.hero-tape__track {
-  display: flex;
-  align-items: center;
-  gap: 36px;
-  width: max-content;
-  animation: hero-tape-scroll 38s linear infinite;
-}
-.hero-tape:hover .hero-tape__track { animation-play-state: paused; }
-.hero-tape__item {
-  font-family: 'Unbounded', 'Arial Black', sans-serif;
-  font-weight: 700;
-  font-size: 12.5px;
-  letter-spacing: 1px;
-  color: rgba(255,255,255,0.72);
-  white-space: nowrap;
-  text-transform: uppercase;
-}
-.hero-tape__star {
-  color: var(--yellow);
-  font-size: 12px;
-  line-height: 1;
-  transform: translateY(-1px);
-}
-@keyframes hero-tape-scroll {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .hero-tape__track { animation: none; }
-}
-
 .hero-sub {
   color: rgba(255,255,255,0.6);
   font-size: 16px;
@@ -2485,26 +2443,6 @@ footer {
   </div>
 </section>
 
-<!-- ══════════════════ STICKER TAPE ══════════════════ -->
-<div class="hero-tape" aria-hidden="true">
-  <div class="hero-tape__track" id="heroTapeTrack">
-    <span class="hero-tape__item">от 10 ₽ за штуку</span>
-    <span class="hero-tape__star">★</span>
-    <span class="hero-tape__item">тираж от 10 шт</span>
-    <span class="hero-tape__star">★</span>
-    <span class="hero-tape__item">срок от 3-х дней</span>
-    <span class="hero-tape__star">★</span>
-    <span class="hero-tape__item">визуал перед печатью</span>
-    <span class="hero-tape__star">★</span>
-    <span class="hero-tape__item">бесплатная доставка от 5 000 ₽</span>
-    <span class="hero-tape__star">★</span>
-    <span class="hero-tape__item">точные цвета</span>
-    <span class="hero-tape__star">★</span>
-    <span class="hero-tape__item">любые поверхности</span>
-    <span class="hero-tape__star">★</span>
-  </div>
-</div>
-
 <!-- ══════════════════ OFFER ══════════════════ -->
 
 <section id="offer" class="offer-section">
@@ -3581,15 +3519,6 @@ addArrows('reviewsWrap',   'reviewsGrid',        '.review-card');
     });
   }, { threshold: 0.4 });
   nums.forEach(function (el) { io.observe(el); });
-})();
-
-/* ══ HERO TAPE — duplicate content for seamless marquee ══ */
-(function () {
-  var track = document.getElementById('heroTapeTrack');
-  if (!track) return;
-  // Clone children once so translateX(-50%) lands on identical content.
-  var html = track.innerHTML;
-  track.innerHTML = html + html;
 })();
 
 /* ══ OFFER CARDS — mouse-following 3D tilt ══ */
