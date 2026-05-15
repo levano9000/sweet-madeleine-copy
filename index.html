@@ -715,6 +715,9 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
   transform: translateY(-6px);
   box-shadow: var(--shadow-hover);
   transition-duration: 0.12s, var(--transition);
+  /* reveal observer sets an inline transition-delay for staggered fade-in;
+     override on hover so per-frame tilt updates aren't queued behind it */
+  transition-delay: 0s !important;
 }
 /* Mouse-following shimmer on the photo thumb area — scoped to .offer-photo so it
    doesn't fight the ::before decorations on the gradient ot-* cards. */
