@@ -1413,6 +1413,30 @@ footer {
 /* ════════════════════════════════
    ABOUT
 ════════════════════════════════ */
+.about-section {
+  position: relative;
+  overflow: hidden;
+  padding: 96px 24px;
+  background:
+    radial-gradient(ellipse 80% 60% at 90% 0%,  rgba(123,47,190,0.10), transparent 65%),
+    radial-gradient(ellipse 70% 55% at 10% 100%, rgba(255,214,0,0.10), transparent 65%),
+    linear-gradient(180deg, #faf6ff 0%, #f3edff 50%, #faf6ff 100%);
+}
+.about-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='50' height='50' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='1.8' fill='%237B2FBE' opacity='0.06'/%3E%3Ccircle cx='35' cy='28' r='1.2' fill='%237B2FBE' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+.about-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
 #about .section-head { margin-bottom: 32px; }
 .about-content {
   max-width: 760px;
@@ -1428,6 +1452,7 @@ footer {
   text-align: center;
 }
 @media (max-width: 600px) {
+  .about-section { padding: 72px 20px; }
   .about-content p { font-size: 14.5px; text-align: left; }
 }
 
@@ -2270,15 +2295,17 @@ footer {
 
 <!-- ══════════════════ OFFER ══════════════════ -->
 <!-- ══════════════════ ABOUT ══════════════════ -->
-<section id="about" class="section-wrap">
-  <div class="section-head center">
-    <div class="section-label">О нас</div>
-    <h2 class="section-title">Кто мы <em>такие</em></h2>
-  </div>
-  <!-- TODO: fill real founding year and equipment names (audit ЖЕЛАТЕЛЬНО #12) -->
-  <div class="about-content">
-    <p>SMS — производство наклеек и стикеров в Москве. За время работы мы выполнили более 12 000 заказов для малого бизнеса, handmade-мастеров и крупных брендов по всей России.</p>
-    <p>Работаем на профессиональном оборудовании. Используем только проверенные материалы — винил, полипропилен, глянцевая и матовая ламинация, УФ-лак.</p>
+<section id="about" class="about-section">
+  <div class="about-inner">
+    <div class="section-head center">
+      <div class="section-label">О нас</div>
+      <h2 class="section-title">Кто мы <em>такие</em></h2>
+    </div>
+    <!-- TODO: fill real founding year and equipment names (audit ЖЕЛАТЕЛЬНО #12) -->
+    <div class="about-content">
+      <p>SMS — производство наклеек и стикеров в Москве. За время работы мы выполнили более 12 000 заказов для малого бизнеса, handmade-мастеров и крупных брендов по всей России.</p>
+      <p>Работаем на профессиональном оборудовании. Используем только проверенные материалы — винил, полипропилен, глянцевая и матовая ламинация, УФ-лак.</p>
+    </div>
   </div>
 </section>
 
