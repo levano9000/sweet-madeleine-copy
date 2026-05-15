@@ -658,11 +658,12 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 18px;
+  justify-content: flex-start;
+  gap: 10px;
   min-height: 380px;
   padding: 32px 30px !important;
 }
+.bento-big .bento-big__body { margin-top: auto; }
 .bento-big::after {
   content: '';
   position: absolute;
@@ -744,7 +745,70 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
   text-transform: lowercase;
 }
 
-.bento-sm { grid-column: span 1; }
+.bento-sm {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+}
+.bento-sm h3 {
+  font-family: 'Unbounded', 'Arial Black', sans-serif;
+  font-weight: 900;
+  font-size: clamp(26px, 2.6vw, 36px);
+  line-height: 1.05;
+  letter-spacing: -1px;
+  margin: 0;
+}
+.bento-sm p { font-size: 13.5px; line-height: 1.6; }
+.bento-sm--accent-green {
+  background: #ECECEC;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 10px;
+  overflow: hidden;
+}
+.bento-sm--accent-green p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(20, 10, 40, 0.68);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* — Typographic poster heading (card 1) — */
+.bento-sm--accent-yellow {
+  background: #ECECEC;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 10px;
+  overflow: hidden;
+}
+.bento-sm--accent-yellow .bento-sm__poster-img,
+.bento-sm--accent-green  .bento-sm__poster-img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: clamp(80px, 10vw, 140px);
+  object-fit: contain;
+  object-position: center;
+  margin: 0 auto;
+}
+.bento-sm--accent-yellow p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: rgba(20, 10, 40, 0.68);
+  text-align: center;
+  font-weight: 500;
+}
 
 @media (max-width: 900px) {
   .benefits-bento { grid-template-columns: 1fr 1fr; }
@@ -840,26 +904,42 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
 
 .offer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 24px;
+  perspective: 1200px;
+}
+@media (max-width: 900px) {
+  .offer-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-.offer-grid { perspective: 1200px; }
+/* Sticker-style cards — slight tilt at rest, layered shadow, white "cut-edge" border */
 .offer-card {
   background: #fff;
-  border-radius: var(--radius-card);
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: var(--shadow-card);
-  transition: transform 0.45s cubic-bezier(.2,.7,.2,1), box-shadow var(--transition);
-  border: 1px solid rgba(0,0,0,0.04);
+  border: 6px solid #fff;
+  box-shadow:
+    0 16px 28px rgba(20, 10, 40, 0.10),
+    0 6px 10px rgba(20, 10, 40, 0.06);
+  transition: transform 0.5s cubic-bezier(.2,.7,.2,1), box-shadow var(--transition);
   display: flex;
   flex-direction: column;
   transform-style: preserve-3d;
   will-change: transform;
+  transform: rotate(var(--sticker-rot, 0deg));
 }
+.offer-card:nth-child(1) { --sticker-rot: -1.6deg; }
+.offer-card:nth-child(2) { --sticker-rot:  1.4deg; }
+.offer-card:nth-child(3) { --sticker-rot: -0.9deg; }
+.offer-card:nth-child(4) { --sticker-rot:  1.8deg; }
+
 .offer-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-hover);
+  /* Sticker "straightens to face you" + lifts when looked at;
+     JS mousemove handler will further tilt in 3D on top of this. */
+  transform: rotate(0deg) translateY(-6px);
+  box-shadow:
+    0 26px 44px rgba(20, 10, 40, 0.14),
+    0 10px 18px rgba(20, 10, 40, 0.08);
   transition-duration: 0.12s, var(--transition);
   /* reveal observer sets an inline transition-delay for staggered fade-in;
      override on hover so per-frame tilt updates aren't queued behind it */
@@ -880,7 +960,22 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
 }
 .offer-card:hover .offer-photo::after { opacity: 1; }
 @media (hover: none) {
-  .offer-card { transform: none !important; }
+  .offer-card { transform: rotate(var(--sticker-rot, 0deg)) !important; }
+}
+
+.offer-cta {
+  text-align: center;
+  margin-top: 56px;
+}
+.offer-cta .btn-cta {
+  width: auto;
+  padding: 16px 40px;
+  display: inline-flex;
+}
+.offer-cta__hint {
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--text-muted);
 }
 
 .offer-thumb {
@@ -1136,6 +1231,103 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
 .review-author-info span {
   font-size: 12px;
   color: var(--text-muted);
+}
+
+/* ── Editorial hero pull-quote ── */
+.review-hero {
+  max-width: 880px;
+  margin: 16px auto 56px;
+  padding: 0 24px;
+  text-align: center;
+}
+.review-hero__mark {
+  width: 44px;
+  height: 44px;
+  color: var(--purple);
+  opacity: 0.75;
+  margin: 0 auto 24px;
+  display: block;
+}
+.review-hero__text {
+  font-family: 'Unbounded', 'Arial Black', sans-serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(22px, 3.2vw, 38px);
+  line-height: 1.25;
+  letter-spacing: -0.6px;
+  color: var(--text-dark);
+  margin: 0 0 28px;
+  text-wrap: balance;
+}
+.review-hero__author {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+.review-hero__author-name {
+  font-family: 'Unbounded', 'Arial Black', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--text-dark);
+}
+.review-hero__author-loc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── Editorial supporting grid ── */
+.reviews-grid--editorial {
+  grid-template-columns: 1fr 1fr;
+  max-width: 880px;
+  margin: 0 auto 40px;
+  gap: 0;
+  border-top: 1px solid rgba(20, 10, 40, 0.10);
+}
+.reviews-grid--editorial .review-card--editorial {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 28px 28px 0;
+  box-shadow: none;
+}
+.reviews-grid--editorial .review-card--editorial + .review-card--editorial {
+  border-left: 1px solid rgba(20, 10, 40, 0.10);
+}
+.reviews-grid--editorial .review-card--editorial:hover {
+  transform: none;
+  border-color: rgba(20, 10, 40, 0.10);
+  box-shadow: none;
+}
+.review-card__text {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text-dark);
+  margin: 0 0 18px;
+}
+.review-card__author strong {
+  display: block;
+  font-family: 'Unbounded', 'Arial Black', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-dark);
+  margin-bottom: 2px;
+}
+.review-card__author span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+@media (max-width: 700px) {
+  .reviews-grid--editorial { grid-template-columns: 1fr; gap: 0; }
+  .reviews-grid--editorial .review-card--editorial + .review-card--editorial {
+    border-left: none;
+    border-top: 1px solid rgba(20, 10, 40, 0.10);
+    padding-top: 24px;
+  }
 }
 
 .reviews-cta {
@@ -2459,7 +2651,6 @@ footer {
         <div class="offer-body">
           <h3>Большие наклейки для брендинга</h3>
           <p>Для витрин, стендов и упаковки — заметны издалека, работают как реклама. Под любой корпоративный стиль.</p>
-          <button class="btn-outline" onclick="openModal('offer')">Получить расчёт →</button>
         </div>
       </div>
       <div class="offer-card reveal">
@@ -2472,7 +2663,6 @@ footer {
         <div class="offer-body">
           <h3>3D стикеры — объёмные и яркие</h3>
           <p>Объёмные, яркие, стойкие. Идеальны для упаковки, подарков и промо-акций. Притягивают взгляд.</p>
-          <button class="btn-outline" onclick="openModal('offer')">Получить расчёт →</button>
         </div>
       </div>
       <div class="offer-card reveal">
@@ -2485,7 +2675,6 @@ footer {
         <div class="offer-body">
           <h3>Наклейки на любую поверхность</h3>
           <p>Стекло, металл, пластик, ткань, дерево — подберём материал под вашу задачу и условия эксплуатации.</p>
-          <button class="btn-outline" onclick="openModal('offer')">Получить расчёт →</button>
         </div>
       </div>
       <div class="offer-card reveal">
@@ -2493,12 +2682,18 @@ footer {
         <div class="offer-body">
           <h3>Любые индивидуальные запросы</h3>
           <p>Нестандартные форматы, уникальные материалы, спецэффекты — готовы обсудить любой запрос. Просто напишите нам.</p>
-          <button class="btn-outline" onclick="openModal('offer')">Получить расчёт →</button>
         </div>
       </div>
     </div>
     <div class="section-dots" id="offerDots"></div>
     </div><!-- /offerWrap -->
+
+    <div class="offer-cta">
+      <button class="btn-cta" onclick="openModal('offer')">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="M12 15c-1.5-1.5-3-3-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>Получить расчёт за 15 минут
+      </button>
+      <p class="offer-cta__hint">Подберём материал и формат под вашу задачу</p>
+    </div>
   </div>
 </section>
 
@@ -2535,16 +2730,14 @@ footer {
       </div>
 
       <!-- Small card 1 -->
-      <div class="benefit-card bento-sm reveal">
-        <div class="benefit-icon-wrap bi-yellow"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
-        <h3>Визуал до печати</h3>
+      <div class="benefit-card bento-sm bento-sm--accent-yellow reveal">
+        <img src="images/visual-poster.png" alt="Визуал до печати" class="bento-sm__poster-img" width="1139" height="350" loading="lazy">
         <p>Покажем, как наклейка будет выглядеть в реальности. Точные цвета, нужный размер.</p>
       </div>
 
       <!-- Small card 2 -->
-      <div class="benefit-card bento-sm reveal">
-        <div class="benefit-icon-wrap bi-green"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
-        <h3>Стойкие материалы</h3>
+      <div class="benefit-card bento-sm bento-sm--accent-green reveal">
+        <img src="images/durable-poster.png" alt="Стойкие материалы" class="bento-sm__poster-img" width="1087" height="334" loading="lazy">
         <p>Не выцветают и не отклеиваются — даже на влажных и сложных поверхностях.</p>
       </div>
     </div>
@@ -2871,9 +3064,8 @@ footer {
       </div>
     </div>
 
-    <!-- TODO: replace placeholders with real ИП/ООО name, ИНН and ОГРНИП (audit ВАЖНО #6) -->
     <div class="footer-legal">
-      <p>ИП Иванов Иван Иванович &nbsp;|&nbsp; ИНН: 000000000000 &nbsp;|&nbsp; ОГРНИП: 000000000000000</p>
+      <p>ИП Шумов Егор Кириллович &nbsp;|&nbsp; ИНН: 505397141415 &nbsp;|&nbsp; ОГРНИП: 324508100518802</p>
     </div>
 
     <div class="footer-bottom">
