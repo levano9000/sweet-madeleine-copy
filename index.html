@@ -94,17 +94,11 @@ a { color: inherit; text-decoration: none; }
   text-decoration: none;
   flex-shrink: 0;
 }
-.nav-logo-badge {
-  background: var(--red);
-  color: #fff;
-  font-family: 'Unbounded', 'Arial Black', sans-serif;
-  font-weight: 900;
-  font-size: 17px;
-  padding: 5px 11px;
-  border-radius: 8px;
-  letter-spacing: 1px;
-  line-height: 1;
-  box-shadow: 0 0 20px rgba(232,25,44,0.45);
+.nav-logo-img {
+  height: 44px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 0 18px rgba(232,25,44,0.35));
 }
 .nav-logo-sub {
   color: rgba(255,255,255,0.45);
@@ -112,6 +106,11 @@ a { color: inherit; text-decoration: none; }
   font-weight: 500;
   letter-spacing: 0.5px;
   white-space: nowrap;
+}
+.footer-logo-img {
+  height: 64px;
+  width: auto;
+  display: block;
 }
 
 .nav-links {
@@ -1884,7 +1883,7 @@ footer {
 <!-- ══════════════════ NAVBAR ══════════════════ -->
 <nav class="nav" id="mainNav">
   <a href="#" class="nav-logo">
-    <span class="nav-logo-badge">SMS</span>
+    <img src="images/logo.png" alt="Sweet Medeleine" class="nav-logo-img" width="1786" height="1684">
     <span class="nav-logo-sub">печать наклеек</span>
   </a>
 
@@ -2321,7 +2320,7 @@ footer {
     <div class="footer-top">
       <div>
         <div class="footer-logo">
-          <span class="nav-logo-badge">SMS</span>
+          <img src="images/logo.png" alt="Sweet Medeleine" class="footer-logo-img" width="1786" height="1684">
         </div>
         <p class="footer-brand-desc">Печать наклеек и 3D стикеров на заказ. От 10 штук, от 3-х дней, по всей России.</p>
       </div>
