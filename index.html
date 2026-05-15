@@ -3122,6 +3122,16 @@ function addArrows(wrapperId, trackId, cardSel) {
   }
 
   function updateArrows() {
+    // Hide the arrows entirely when the track has no horizontal overflow
+    // (e.g. benefits/offer/reviews grids on desktop where all cards already fit).
+    var hasOverflow = track.scrollWidth - track.clientWidth > 4;
+    if (!hasOverflow) {
+      prev.style.display = 'none';
+      next.style.display = 'none';
+      return;
+    }
+    prev.style.display = '';
+    next.style.display = '';
     var atStart = track.scrollLeft <= 4;
     var atEnd   = track.scrollLeft >= track.scrollWidth - track.clientWidth - 4;
     prev.style.opacity = atStart ? '0.25' : '1';
@@ -3150,6 +3160,7 @@ function addArrows(wrapperId, trackId, cardSel) {
   next.onclick = function() { scroll(1); };
 
   track.addEventListener('scroll', updateArrows, { passive: true });
+  window.addEventListener('resize', updateArrows);
 
   wrapper.style.position = 'relative';
   wrapper.appendChild(prev);
