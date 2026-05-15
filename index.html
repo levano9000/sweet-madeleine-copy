@@ -1340,69 +1340,63 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
 
 .steps-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   position: relative;
 }
 
-/* Connecting line between steps */
-@media (min-width: 769px) {
-  .steps-grid::before {
-    content: '';
-    position: absolute;
-    top: 34px;
-    left: calc(12.5% + 22px);
-    right: calc(12.5% + 22px);
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15) 20%, rgba(255,255,255,0.15) 80%, transparent);
-    z-index: 0;
-  }
-}
-
 .step-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: var(--radius-card);
-  padding: 32px 24px 28px;
+  padding: 96px 28px 28px;
   position: relative;
+  overflow: hidden;
+  min-height: 240px;
   z-index: 1;
   transition: background var(--transition), border-color var(--transition), transform var(--transition);
 }
 .step-card:hover {
-  background: rgba(255,255,255,0.09);
-  border-color: rgba(255,255,255,0.72);
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,214,0,0.28);
   transform: translateY(-4px);
 }
 
 .step-num {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, var(--red) 0%, #b80f1f 100%);
-  color: #fff;
+  position: absolute;
+  top: -6px;
+  right: 14px;
   font-family: 'Unbounded', 'Arial Black', sans-serif;
-  font-size: 16px;
+  font-size: clamp(120px, 13vw, 168px);
   font-weight: 900;
-  border-radius: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 16px rgba(232,25,44,0.4);
-  position: relative;
+  line-height: 0.85;
+  letter-spacing: -6px;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.14);
+  pointer-events: none;
+  transition: -webkit-text-stroke-color 0.4s ease, transform 0.4s ease;
+}
+.step-card:hover .step-num {
+  -webkit-text-stroke-color: rgba(255,214,0,0.4);
+  transform: translateY(2px);
 }
 
 .step-card h3 {
   font-family: 'Unbounded', 'Arial Black', sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
   line-height: 1.4;
+  position: relative;
+  z-index: 1;
 }
 .step-card p {
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.55);
   line-height: 1.65;
+  position: relative;
+  z-index: 1;
 }
 
 .steps-cta {
@@ -2710,17 +2704,17 @@ footer {
 
     <div class="steps-grid">
       <div class="step-card reveal">
-        <div class="step-num">1</div>
+        <div class="step-num" aria-hidden="true">01</div>
         <h3>Оставляете заявку</h3>
         <p>Пишите через форму или в мессенджер. Уточняем детали: макет, количество, размеры, материал.</p>
       </div>
       <div class="step-card reveal">
-        <div class="step-num">2</div>
+        <div class="step-num" aria-hidden="true">02</div>
         <h3>Согласовываем детали</h3>
         <p>Рассчитываем стоимость, подбираем материалы и отправляем визуал на согласование. После оплаты — в печать.</p>
       </div>
       <div class="step-card reveal">
-        <div class="step-num">3</div>
+        <div class="step-num" aria-hidden="true">03</div>
         <h3>Получаете заказ</h3>
         <p>Готовые наклейки аккуратно упакованы и доставлены удобным способом. Курьером или почтой по России.</p>
       </div>
