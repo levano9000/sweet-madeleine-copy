@@ -698,19 +698,40 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
   gap: 24px;
 }
 
+.offer-grid { perspective: 1200px; }
 .offer-card {
   background: #fff;
   border-radius: var(--radius-card);
   overflow: hidden;
   box-shadow: var(--shadow-card);
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform 0.45s cubic-bezier(.2,.7,.2,1), box-shadow var(--transition);
   border: 1px solid rgba(0,0,0,0.04);
   display: flex;
   flex-direction: column;
+  transform-style: preserve-3d;
+  will-change: transform;
 }
 .offer-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-hover);
+  transition-duration: 0.12s, var(--transition);
+}
+/* Mouse-following shimmer on the photo thumb area — scoped to .offer-photo so it
+   doesn't fight the ::before decorations on the gradient ot-* cards. */
+.offer-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.32), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: overlay;
+}
+.offer-card:hover .offer-photo::after { opacity: 1; }
+@media (hover: none) {
+  .offer-card { transform: none !important; }
 }
 
 .offer-thumb {
@@ -3201,6 +3222,40 @@ addArrows('portfolioWrap', 'portfolioCarousel', '.portfolio-card');
 addArrows('benefitsWrap',  'benefitsGrid',      '.benefit-card');
 addArrows('offerWrap',     'offerGrid',          '.offer-card');
 addArrows('reviewsWrap',   'reviewsGrid',        '.review-card');
+
+/* ══ OFFER CARDS — mouse-following 3D tilt ══ */
+(function () {
+  if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+  var cards = document.querySelectorAll('.offer-card');
+  if (!cards.length) return;
+  cards.forEach(function (card) {
+    var rect = null;
+    var rafId = null;
+    var tx = 0, ty = 0;
+    function render() {
+      card.style.transform = 'rotateX(' + tx.toFixed(2) + 'deg) rotateY(' + ty.toFixed(2) + 'deg) translateY(-6px)';
+      rafId = null;
+    }
+    card.addEventListener('mouseenter', function () { rect = card.getBoundingClientRect(); });
+    card.addEventListener('mousemove', function (e) {
+      if (!rect) rect = card.getBoundingClientRect();
+      var px = (e.clientX - rect.left) / rect.width;
+      var py = (e.clientY - rect.top) / rect.height;
+      ty = (px - 0.5) * 8;
+      tx = (0.5 - py) * 6;
+      var thumb = card.querySelector('.offer-thumb');
+      if (thumb) {
+        thumb.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+        thumb.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      }
+      if (!rafId) rafId = requestAnimationFrame(render);
+    });
+    card.addEventListener('mouseleave', function () {
+      rect = null;
+      card.style.transform = '';
+    });
+  });
+})();
 </script>
 </body>
 </html>
