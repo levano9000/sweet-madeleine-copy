@@ -1362,6 +1362,81 @@ footer {
   transition: color var(--transition);
 }
 .footer-contacts a:hover { color: var(--yellow); }
+.footer-tg {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.footer-tg svg {
+  width: 16px;
+  height: 16px;
+  color: #229ED9;
+  flex-shrink: 0;
+}
+.footer-tg:hover svg { color: #5cc4eb; }
+
+/* ════════════════════════════════
+   COOKIE BANNER
+════════════════════════════════ */
+.cookie-banner {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translate(-50%, 140%);
+  width: min(640px, calc(100% - 32px));
+  z-index: 1700;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px 20px;
+  background: rgba(13,6,25,0.92);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 16px;
+  box-shadow: 0 18px 48px rgba(0,0,0,0.5);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  transition: transform 0.5s cubic-bezier(.2,.7,.2,1), opacity 0.4s ease;
+  opacity: 0;
+  pointer-events: none;
+}
+.cookie-banner.is-open {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+.cookie-banner__text {
+  flex: 1;
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.78);
+}
+.cookie-banner__text a {
+  color: var(--yellow);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.cookie-banner__text a:hover { color: #fff; }
+.cookie-banner__btn {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, var(--red), var(--red-dark));
+  color: #fff;
+  font-family: 'Unbounded', 'Arial Black', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.3px;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 22px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(232,25,44,0.35);
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+}
+.cookie-banner__btn:hover { transform: translateY(-1px); filter: brightness(1.06); box-shadow: 0 6px 22px rgba(232,25,44,0.5); }
+.cookie-banner__btn:active { transform: translateY(0); }
+@media (max-width: 520px) {
+  .cookie-banner { flex-direction: column; align-items: stretch; padding: 14px; bottom: 12px; gap: 12px; }
+  .cookie-banner__btn { width: 100%; padding: 12px; }
+}
 .footer-contacts-note {
   font-size: 12px;
   color: rgba(255,255,255,0.72);
@@ -2346,6 +2421,10 @@ footer {
         <div class="footer-contacts">
           <a href="tel:+79852651090">+7 (985) 265-10-90</a>
           <a href="mailto:sms.shooop@gmail.com">sms.shooop@gmail.com</a>
+          <a href="#" id="footerTgLink" class="footer-tg">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+          Telegram
+          </a>
         </div>
       </div>
     </div>
@@ -2429,6 +2508,15 @@ footer {
   </a>
 </div>
 
+<!-- ══════════════════ COOKIE BANNER ══════════════════ -->
+<div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Уведомление об использовании cookies">
+  <p class="cookie-banner__text">
+    Мы используем cookies, чтобы сайт работал быстрее и удобнее. Продолжая, вы соглашаетесь с
+    <a href="#">политикой конфиденциальности</a>.
+  </p>
+  <button class="cookie-banner__btn" id="cookieAcceptBtn" type="button">Принять</button>
+</div>
+
 <script>
 /* ══ CONFIG ══ */
 const BOT_TOKEN = '8783499914:AAG9YnVFb3lr954E4Y-4EtEe5h0stkoY4z8';
@@ -2436,6 +2524,23 @@ const CHAT_ID   = '7399321088';
 
 const ROCKET_SVG = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="M12 15c-1.5-1.5-3-3-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>';
 const SPINNER_SVG = '<span class="icon-spin" aria-hidden="true"></span>';
+
+/* ══ COOKIE BANNER ══ */
+(function () {
+  var KEY = 'sms_cookie_ok';
+  var banner = document.getElementById('cookieBanner');
+  var btn = document.getElementById('cookieAcceptBtn');
+  if (!banner || !btn) return;
+  var accepted = false;
+  try { accepted = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  if (!accepted) {
+    setTimeout(function () { banner.classList.add('is-open'); }, 600);
+  }
+  btn.addEventListener('click', function () {
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    banner.classList.remove('is-open');
+  });
+})();
 
 /* ══ GLOBAL FORM STATE ══ */
 var _formState = { vid: '', volume: '' };
