@@ -3277,12 +3277,21 @@ addArrows('reviewsWrap',   'reviewsGrid',        '.review-card');
 
   function draw() {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    if (mx > -1000 && !onDark) {
-      // Two-stop radial: bright purple core → softer violet → transparent
-      var g = ctx.createRadialGradient(mx, my, 0, mx, my, 320);
-      g.addColorStop(0,   'rgba(123, 47, 190, 0.55)');  /* --purple */
-      g.addColorStop(0.45,'rgba(155, 95, 222, 0.22)');  /* --purple-light */
-      g.addColorStop(1,   'rgba(255, 255, 255, 0)');
+    if (mx > -1000) {
+      var g = ctx.createRadialGradient(mx, my, 0, mx, my, 200);
+      if (onDark) {
+        // Dark sections — soft white glow that lifts the surface
+        canvas.style.mixBlendMode = 'screen';
+        g.addColorStop(0,   'rgba(255, 255, 255, 0.32)');
+        g.addColorStop(0.45,'rgba(220, 200, 255, 0.14)');
+        g.addColorStop(1,   'rgba(0, 0, 0, 0)');
+      } else {
+        // Light sections — pale violet tint
+        canvas.style.mixBlendMode = 'multiply';
+        g.addColorStop(0,   'rgba(176, 132, 224, 0.38)');  /* pale --purple-light */
+        g.addColorStop(0.5, 'rgba(210, 188, 240, 0.20)');
+        g.addColorStop(1,   'rgba(255, 255, 255, 0)');
+      }
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
     }
