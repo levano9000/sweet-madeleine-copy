@@ -307,7 +307,7 @@ a { color: inherit; text-decoration: none; }
   margin: 0 auto;
   width: 100%;
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
+  grid-template-columns: minmax(0, 1.1fr) minmax(420px, 0.9fr);
   gap: 56px;
   align-items: center;
 }
@@ -341,12 +341,12 @@ a { color: inherit; text-decoration: none; }
 
 .hero h1 {
   font-family: 'Unbounded', 'Arial Black', sans-serif;
-  font-size: clamp(28px, 4.5vw, 50px);
+  font-size: clamp(38px, 6.2vw, 76px);
   font-weight: 900;
   color: #fff;
-  line-height: 1.13;
-  margin-bottom: 20px;
-  letter-spacing: -0.5px;
+  line-height: 0.88;
+  margin-bottom: 24px;
+  letter-spacing: -1.5px;
 }
 .hero h1 em {
   font-style: normal;
@@ -357,8 +357,10 @@ a { color: inherit; text-decoration: none; }
 .hero-rotator {
   display: inline-grid;
   vertical-align: bottom;
-  color: var(--yellow);
+  max-width: 100%;
+  line-height: 0.85;
 }
+.hero-rotator--accent { color: var(--yellow); text-transform: uppercase; }
 .hero-rotator__word {
   grid-area: 1 / 1;
   opacity: 0;
@@ -1152,26 +1154,66 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
   border: 1.5px solid #f0edf8;
   border-radius: var(--radius-card);
   padding: 28px 24px;
-  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  transition: border-color 0.35s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(.2,.7,.2,1);
   display: flex;
   flex-direction: column;
   position: relative;
+  overflow: hidden;
+}
+/* Hairline top accent that lights up on hover (yellow → purple sweep) */
+.review-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 14%;
+  right: 14%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--yellow), var(--purple-light), transparent);
+  border-radius: 999px;
+  opacity: 0;
+  transform: scaleX(0.4);
+  transition: opacity 0.35s ease, transform 0.5s cubic-bezier(.2,.7,.2,1);
+  pointer-events: none;
 }
 .review-card:hover {
-  border-color: rgba(255,214,0,0.4);
-  box-shadow: 0 12px 36px rgba(255,214,0,0.08);
-  transform: translateY(-4px);
+  border-color: rgba(255,214,0,0.55);
+  box-shadow:
+    0 22px 52px rgba(255,214,0,0.16),
+    0 10px 24px rgba(123,47,190,0.09),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  transform: translateY(-6px);
+}
+.review-card:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .review-quote-mark {
   font-size: 48px;
   line-height: 1;
   color: var(--purple-light);
-  opacity: 0.25;
   font-family: Georgia, serif;
   position: absolute;
   top: 16px;
   right: 22px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.35) rotate(-18deg);
+  transform-origin: 60% 60%;
+  transition:
+    opacity 0.7s ease 0.35s,
+    transform 0.9s cubic-bezier(.2,.7,.2,1) 0.35s,
+    color 0.3s ease;
+}
+.review-card.visible .review-quote-mark {
+  opacity: 0.28;
+  transform: scale(1) rotate(0deg);
+}
+.review-card:hover .review-quote-mark {
+  opacity: 0.65;
+  transform: scale(1.18) rotate(-6deg);
+  color: var(--yellow);
+  transition-delay: 0s;
 }
 
 .review-stars {
@@ -1384,7 +1426,8 @@ input[type="number"]::-webkit-inner-spin-button { opacity: 0.4; }
 
 .portfolio-card {
   flex-shrink: 0;
-  scroll-snap-align: center;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   width: 280px;
   border-radius: var(--radius-card);
   overflow: hidden;
@@ -2169,7 +2212,7 @@ footer {
     gap: 40px;
   }
   .hero { padding: 88px 24px 56px; min-height: auto; }
-  .hero h1 { font-size: clamp(26px, 6vw, 36px); }
+  .hero h1 { font-size: clamp(34px, 8.5vw, 56px); letter-spacing: -1px; }
 
   .footer-top {
     grid-template-columns: 1fr 1fr;
@@ -2555,7 +2598,7 @@ footer {
         от 3-х дней — быстрая печать
       </div>
 
-      <h1>Печать наклеек<br>и <span class="hero-rotator" aria-live="polite"><span class="hero-rotator__word is-active">3D стикеров</span><span class="hero-rotator__word">этикеток</span><span class="hero-rotator__word">фигурных стикеров</span><span class="hero-rotator__word">стикеров для упаковки</span></span><br>на заказ</h1>
+      <h1>Печать наклеек и<br><span class="hero-rotator hero-rotator--accent" aria-live="polite"><span class="hero-rotator__word is-active">3D стикеров</span><span class="hero-rotator__word">этикеток</span><span class="hero-rotator__word">стикерпаков</span></span><br>на заказ</h1>
 
       <p class="hero-sub">
         Минимальный тираж от 10 штук. Визуал перед печатью — никаких сюрпризов.
@@ -3469,32 +3512,57 @@ async function submitModal() {
 }
 
 /* ══ UNIVERSAL CAROUSEL ══ */
-function initCarousel(trackId, dotsId, cardSel) {
+function initCarousel(trackId, dotsId, cardSel, maxStops) {
   var track = document.getElementById(trackId);
   var dotsContainer = document.getElementById(dotsId);
   if (!track || !dotsContainer) return;
   var cards = Array.from(track.querySelectorAll(cardSel || ':scope > *'));
   if (cards.length < 2) return;
 
-  // Clear existing dots (on resize re-init)
-  dotsContainer.innerHTML = '';
+  var stops = [];  // scrollLeft positions
 
-  cards.forEach(function(_, i) {
-    var dot = document.createElement('button');
-    dot.className = 'c-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', 'Слайд ' + (i + 1));
-    dot.onclick = function() {
-      var el = cards[i];
-      track.scrollTo({ left: el.offsetLeft - 16, behavior: 'smooth' });
-    };
-    dotsContainer.appendChild(dot);
-  });
+  function recomputeStops() {
+    var maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+    stops = [];
+    if (maxStops && maxStops > 0) {
+      // Distribute exactly N stops evenly across the scrollable range.
+      var n = Math.min(maxStops, cards.length);
+      if (n < 2) { stops.push(0); return; }
+      for (var i = 0; i < n; i++) {
+        stops.push((maxScroll * i) / (n - 1));
+      }
+      return;
+    }
+    // Default: one stop per card, deduplicated where multiple cards clamp to the same scrollLeft
+    var seen = {};
+    cards.forEach(function(c) {
+      var target = Math.max(0, Math.min(c.offsetLeft - 16, maxScroll));
+      var key = Math.round(target);
+      if (seen[key] === undefined) {
+        seen[key] = stops.length;
+        stops.push(target);
+      }
+    });
+  }
+
+  function buildDots() {
+    dotsContainer.innerHTML = '';
+    stops.forEach(function(targetLeft, i) {
+      var dot = document.createElement('button');
+      dot.className = 'c-dot' + (i === 0 ? ' active' : '');
+      dot.setAttribute('aria-label', 'Слайд ' + (i + 1));
+      dot.onclick = function() {
+        track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+      };
+      dotsContainer.appendChild(dot);
+    });
+  }
 
   function updateDots() {
     var scrollLeft = track.scrollLeft;
     var closest = 0, minDist = Infinity;
-    cards.forEach(function(c, i) {
-      var dist = Math.abs(c.offsetLeft - 16 - scrollLeft);
+    stops.forEach(function(s, i) {
+      var dist = Math.abs(s - scrollLeft);
       if (dist < minDist) { minDist = dist; closest = i; }
     });
     dotsContainer.querySelectorAll('.c-dot').forEach(function(d, i) {
@@ -3502,11 +3570,22 @@ function initCarousel(trackId, dotsId, cardSel) {
     });
   }
 
+  function rebuild() {
+    recomputeStops();
+    buildDots();
+    updateDots();
+  }
+
   track.addEventListener('scroll', updateDots, { passive: true });
+  window.addEventListener('resize', rebuild);
+
+  // Initial pass after layout has settled
+  rebuild();
+  setTimeout(rebuild, 80);
 }
 
-// Portfolio — всегда карусель
-initCarousel('portfolioCarousel', 'portfolioDots', '.portfolio-card');
+// Portfolio — всегда карусель, 3 равноотстоящие точки
+initCarousel('portfolioCarousel', 'portfolioDots', '.portfolio-card', 3);
 
 // Benefits / Offer / Reviews — карусель только на мобилке
 function initMobileCarousels() {
@@ -3657,24 +3736,29 @@ addArrows('reviewsWrap',   'reviewsGrid',        '.review-card');
   requestAnimationFrame(draw);
 })();
 
-/* ══ HERO ROTATING NOUN ══ */
+/* ══ HERO ROTATING NOUNS — per-rotator independent cycles ══ */
 (function () {
-  var words = document.querySelectorAll('.hero-rotator__word');
-  if (words.length < 2) return;
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var i = 0;
-  setInterval(function () {
-    var cur = words[i];
-    cur.classList.remove('is-active');
-    cur.classList.add('is-leaving');
-    i = (i + 1) % words.length;
-    var next = words[i];
-    next.classList.add('is-active');
-    // Reset old leaving state on whichever cycled back next time
-    setTimeout(function () {
-      words.forEach(function (w) { if (w !== next) w.classList.remove('is-leaving'); });
-    }, 600);
-  }, 2600);
+  var rotators = document.querySelectorAll('.hero-rotator');
+  rotators.forEach(function (rotator, rotatorIdx) {
+    var words = rotator.querySelectorAll('.hero-rotator__word');
+    if (words.length < 2) return;
+    var i = 0;
+    // Each rotator gets a slightly different interval so the two lines
+    // don't tick in lockstep — feels more alive.
+    var interval = 2600 + rotatorIdx * 400;
+    setInterval(function () {
+      var cur = words[i];
+      cur.classList.remove('is-active');
+      cur.classList.add('is-leaving');
+      i = (i + 1) % words.length;
+      var next = words[i];
+      next.classList.add('is-active');
+      setTimeout(function () {
+        words.forEach(function (w) { if (w !== next) w.classList.remove('is-leaving'); });
+      }, 600);
+    }, interval);
+  });
 })();
 
 /* ══ BENTO NUMBER COUNTERS ══ */
