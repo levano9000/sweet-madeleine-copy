@@ -2081,6 +2081,22 @@ footer {
 .select-wrap-light::after { color: #aaa; }
 
 /* ════════════════════════════════
+   SPOTLIGHT CURSOR
+════════════════════════════════ */
+#spotlight {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;            /* above sections (z 0–2), below nav (1000), FAB (1500), cookies (1700), modal (2000) */
+  mix-blend-mode: multiply;
+  opacity: 1;
+}
+@media (hover: none) { #spotlight { display: none; } }
+
+/* ════════════════════════════════
    ICONS
 ════════════════════════════════ */
 .icon {
@@ -2160,6 +2176,7 @@ footer {
 </style>
 </head>
 <body>
+<canvas id="spotlight" aria-hidden="true"></canvas>
 
 <!-- ══════════════════ NAVBAR ══════════════════ -->
 <nav class="nav" id="mainNav">
@@ -3225,6 +3242,64 @@ addArrows('portfolioWrap', 'portfolioCarousel', '.portfolio-card');
 addArrows('benefitsWrap',  'benefitsGrid',      '.benefit-card');
 addArrows('offerWrap',     'offerGrid',          '.offer-card');
 addArrows('reviewsWrap',   'reviewsGrid',        '.review-card');
+
+/* ══ SPOTLIGHT CURSOR — purple tint on light sections, idle on dark ══ */
+(function () {
+  if (window.matchMedia && window.matchMedia('(hover: none)').matches) return;
+  var canvas = document.getElementById('spotlight');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dpr = window.devicePixelRatio || 1;
+  var mx = -9999, my = -9999;
+  var onDark = false;
+
+  function resize() {
+    canvas.width  = Math.round(window.innerWidth  * dpr);
+    canvas.height = Math.round(window.innerHeight * dpr);
+    canvas.style.width  = window.innerWidth  + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function isDarkAt(x, y) {
+    // Spotlight pointer-events:none so elementFromPoint sees the real element below.
+    var el = document.elementFromPoint(x, y);
+    while (el && el !== document.body) {
+      if (el.tagName === 'NAV' || el.tagName === 'FOOTER') return true;
+      if (el.classList && (
+        el.classList.contains('hero') ||
+        el.classList.contains('steps-section')
+      )) return true;
+      el = el.parentElement;
+    }
+    return false;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    if (mx > -1000 && !onDark) {
+      // Two-stop radial: bright purple core → softer violet → transparent
+      var g = ctx.createRadialGradient(mx, my, 0, mx, my, 320);
+      g.addColorStop(0,   'rgba(123, 47, 190, 0.55)');  /* --purple */
+      g.addColorStop(0.45,'rgba(155, 95, 222, 0.22)');  /* --purple-light */
+      g.addColorStop(1,   'rgba(255, 255, 255, 0)');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('mousemove', function (e) {
+    mx = e.clientX;
+    my = e.clientY;
+    onDark = isDarkAt(mx, my);
+  });
+  window.addEventListener('mouseleave', function () { mx = -9999; my = -9999; });
+  window.addEventListener('resize', resize);
+
+  resize();
+  requestAnimationFrame(draw);
+})();
 
 /* ══ OFFER CARDS — mouse-following 3D tilt ══ */
 (function () {
