@@ -1799,6 +1799,84 @@ footer {
   font-size: 13px;
 }
 .select-wrap-light::after { color: #aaa; }
+
+/* ════════════════════════════════
+   ICONS
+════════════════════════════════ */
+.icon {
+  display: inline-block;
+  vertical-align: -0.15em;
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+  overflow: visible;
+}
+.icon-fill { fill: currentColor; stroke: none; }
+.icon-mix  { stroke-width: 2; }
+
+/* Button icons sit next to text */
+.btn-cta .icon { width: 20px; height: 20px; margin-right: 10px; vertical-align: -0.22em; }
+.form-note .icon,
+.form-note-light .icon { width: 14px; height: 14px; margin-right: 6px; vertical-align: -0.18em; }
+.upload-zone .icon,
+.upload-zone-light .icon { width: 16px; height: 16px; margin-right: 4px; }
+
+/* Hero avatar glyphs */
+.hero-avatar .icon { width: 16px; height: 16px; color: rgba(255,255,255,0.95); }
+
+/* Benefit icons fill the 52px tile */
+.benefit-icon-wrap .icon { width: 26px; height: 26px; stroke-width: 1.8; }
+.bi-purple .icon { color: var(--purple); }
+.bi-red    .icon { color: var(--red); }
+.bi-yellow .icon { color: #d4a900; }
+.bi-green  .icon { color: #16a34a; }
+
+/* Offer thumb glyph (card 4) */
+.offer-thumb.ot-4 .icon {
+  width: 88px;
+  height: 88px;
+  color: rgba(255,255,255,0.92);
+  stroke-width: 1.5;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.35));
+}
+
+/* Review stars + avatar glyphs */
+.review-stars .icon { width: 16px; height: 16px; color: var(--yellow); }
+.review-avatar .icon { width: 18px; height: 18px; color: rgba(255,255,255,0.95); }
+
+/* Modal close X + success check */
+.modal-close .icon { width: 14px; height: 14px; }
+.modal-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(22,163,74,0.12);
+  color: #16a34a;
+  margin-bottom: 16px;
+}
+.modal-success-icon .icon { width: 36px; height: 36px; stroke-width: 2.4; }
+
+/* Spinner (loading button state) */
+.icon-spin {
+  width: 18px; height: 18px;
+  margin-right: 10px;
+  vertical-align: -0.22em;
+  border: 2.4px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  display: inline-block;
+  animation: icon-spin 0.7s linear infinite;
+}
+@keyframes icon-spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 <body>
@@ -1871,10 +1949,10 @@ footer {
 
       <div class="hero-trust">
         <div class="hero-avatars">
-          <div class="hero-avatar av-1">😊</div>
-          <div class="hero-avatar av-2">🙂</div>
-          <div class="hero-avatar av-3">😄</div>
-          <div class="hero-avatar av-4">🤩</div>
+          <div class="hero-avatar av-1"><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></div>
+          <div class="hero-avatar av-2"><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.94 14.06A2 2 0 0 0 8.5 12.62L2.4 11.04a.5.5 0 0 1 0-.97L8.5 8.5a2 2 0 0 0 1.44-1.44L11.51 1a.5.5 0 0 1 .98 0l1.57 6.06a2 2 0 0 0 1.44 1.44l6.1 1.57a.5.5 0 0 1 0 .97L15.5 12.62a2 2 0 0 0-1.44 1.44L12.49 20.13a.5.5 0 0 1-.98 0Z"/></svg></div>
+          <div class="hero-avatar av-3"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="10" x2="9.01" y2="10"/><line x1="15" y1="10" x2="15.01" y2="10"/></svg></div>
+          <div class="hero-avatar av-4"><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg></div>
         </div>
         <span>Уже заказали <strong style="color:#fff">12 000+ клиентов</strong></span>
       </div>
@@ -1904,18 +1982,18 @@ footer {
       <div class="form-field">
         <label>Макет</label>
         <button class="upload-zone" id="heroUploadBtn" onclick="document.getElementById('fileInput').click()" type="button">
-          <span>📎</span>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.93 8.83l-8.57 8.57a2 2 0 1 1-2.83-2.83l8.49-8.48"/></svg>
           <span id="heroFileName">Загрузить файл (PDF, PNG, AI)</span>
         </button>
         <input type="file" id="fileInput" style="display:none" accept=".pdf,.png,.jpg,.ai,.svg,.eps">
       </div>
 
       <button class="btn-cta" onclick="openModal('hero')">
-        🚀 Получить расчёт за 15 минут
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="M12 15c-1.5-1.5-3-3-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>Получить расчёт за 15 минут
       </button>
 
       <p class="form-note">
-        🚚 <strong>Бесплатная доставка</strong> от 5 000 руб • Срок от 3-х дней
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg><strong>Бесплатная доставка</strong> от 5 000 руб • Срок от 3-х дней
       </p>
     </div>
   </div>
@@ -1933,22 +2011,22 @@ footer {
     <div id="benefitsWrap" style="position:relative">
     <div class="benefits-grid" id="benefitsGrid">
       <div class="benefit-card reveal">
-        <div class="benefit-icon-wrap bi-purple">📦</div>
+        <div class="benefit-icon-wrap bi-purple"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></div>
         <h3>От 10 штук — без переплат</h3>
         <p>Вы заказываете столько, сколько нужно — мы не требуем тираж «от 500 штук». Удобно для малого бизнеса и handmade.</p>
       </div>
       <div class="benefit-card reveal">
-        <div class="benefit-icon-wrap bi-yellow">👁️</div>
+        <div class="benefit-icon-wrap bi-yellow"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
         <h3>Визуал до печати — без сюрпризов</h3>
         <p>Покажем, как будет выглядеть наклейка в реальности — до запуска в печать. Точные цвета, нужный размер.</p>
       </div>
       <div class="benefit-card reveal">
-        <div class="benefit-icon-wrap bi-red">⚡</div>
+        <div class="benefit-icon-wrap bi-red"><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
         <h3>Расчёт за 15 минут</h3>
         <p>Оставьте заявку — и мы пришлём точную цену в течение четверти часа. Без долгих согласований.</p>
       </div>
       <div class="benefit-card reveal">
-        <div class="benefit-icon-wrap bi-green">💪</div>
+        <div class="benefit-icon-wrap bi-green"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg></div>
         <h3>Стойкие материалы</h3>
         <p>Стикеры держатся, не выцветают и не отклеиваются — даже на влажных и сложных поверхностях.</p>
       </div>
@@ -2009,7 +2087,7 @@ footer {
         </div>
       </div>
       <div class="offer-card reveal">
-        <div class="offer-thumb ot-4">🛠️</div>
+        <div class="offer-thumb ot-4"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.121 2.121 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
         <div class="offer-body">
           <h3>Любые индивидуальные запросы</h3>
           <p>Нестандартные форматы, уникальные материалы, спецэффекты — готовы обсудить любой запрос. Просто напишите нам.</p>
@@ -2036,12 +2114,12 @@ footer {
       <div class="review-card reveal">
         <div class="review-quote-mark">"</div>
         <div class="review-stars">
-          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          <svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
         </div>
         <div class="review-headline">Открывали новую точку — нужно было срочно</div>
         <p class="review-text">Нужно было срочно напечатать режим работы и наклейки на дверь. В типографиях говорили только от 50 штук или «через 3 дня». Ребята сделали за несколько суток — аккуратно, по размерам и без лишних разговоров. Уже клеим!</p>
         <div class="review-author">
-          <div class="review-avatar ra-1">🛍️</div>
+          <div class="review-avatar ra-1"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
           <div class="review-author-info">
             <strong>Магазин одежды</strong>
             <span>Москва</span>
@@ -2052,12 +2130,12 @@ footer {
       <div class="review-card reveal">
         <div class="review-quote-mark">"</div>
         <div class="review-stars">
-          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          <svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
         </div>
         <div class="review-headline">С первого раза всё попали в цвет</div>
         <p class="review-text">Нужны были наклейки под корпоративный стиль, точные цвета — очень важно. Прислали визуал, согласовали — с первого раза попали. Очень доволен, буду заказывать ещё.</p>
         <div class="review-author">
-          <div class="review-avatar ra-2">🏭</div>
+          <div class="review-avatar ra-2"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8l-7 5V8l-7 5V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M17 18h1"/><path d="M12 18h1"/><path d="M7 18h1"/></svg></div>
           <div class="review-author-info">
             <strong>Производственная компания</strong>
             <span>Санкт-Петербург</span>
@@ -2068,12 +2146,12 @@ footer {
       <div class="review-card reveal">
         <div class="review-quote-mark">"</div>
         <div class="review-stars">
-          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          <svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg><svg class="icon icon-fill" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m12 2 3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.77 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
         </div>
         <div class="review-headline">Маленький тираж — не проблема</div>
         <p class="review-text">Везде просили минимум 100–200 штук. Здесь сделали 15 штук без вопросов. Качество отличное, доставили быстро. Рекомендую всем малому бизнесу!</p>
         <div class="review-author">
-          <div class="review-avatar ra-3">🎨</div>
+          <div class="review-avatar ra-3"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="13.5" cy="6.5" r="1.2"/><circle cx="17.5" cy="10.5" r="1.2"/><circle cx="8.5" cy="7.5" r="1.2"/><circle cx="6.5" cy="12.5" r="1.2"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.92 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2Z"/></svg></div>
           <div class="review-author-info">
             <strong>Handmade мастер</strong>
             <span>Краснодар</span>
@@ -2190,7 +2268,7 @@ footer {
 
     <div class="steps-cta">
       <button class="btn-cta" onclick="scrollToForm()">
-        🚀 Заказать и рассчитать
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="M12 15c-1.5-1.5-3-3-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>Заказать и рассчитать
       </button>
     </div>
   </div>
@@ -2225,14 +2303,14 @@ footer {
       <div class="form-field-light">
         <label>Макет</label>
         <button class="upload-zone-light" id="bottomUploadBtn" onclick="document.getElementById('fileInput2').click()" type="button">
-          <span>📎</span>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 17.93 8.83l-8.57 8.57a2 2 0 1 1-2.83-2.83l8.49-8.48"/></svg>
           <span id="bottomFileName">Загрузить файл (PDF, PNG, AI)</span>
         </button>
         <input type="file" id="fileInput2" style="display:none" accept=".pdf,.png,.jpg,.ai,.svg,.eps">
       </div>
 
-      <button class="btn-cta" onclick="openModal('bottom')">🚀 Получить расчёт</button>
-      <p class="form-note-light">🚚 <strong>Бесплатная доставка</strong> от 5 000 руб • Срок от 3-х дней</p>
+      <button class="btn-cta" onclick="openModal('bottom')"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="M12 15c-1.5-1.5-3-3-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>Получить расчёт</button>
+      <p class="form-note-light"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg><strong>Бесплатная доставка</strong> от 5 000 руб • Срок от 3-х дней</p>
     </div>
   </div>
 </section>
@@ -2279,7 +2357,7 @@ footer {
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box" id="modal">
     <div class="modal-top-accent"></div>
-    <button class="modal-close" onclick="closeModal()" aria-label="Закрыть">✕</button>
+    <button class="modal-close" onclick="closeModal()" aria-label="Закрыть"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
 
     <div id="modalFormWrap">
       <div class="modal-title">Оставить заявку</div>
@@ -2319,12 +2397,12 @@ footer {
       </div>
 
       <button class="btn-cta" id="modalSubmitBtn" onclick="submitModal()">
-        🚀 Отправить заявку
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="M12 15c-1.5-1.5-3-3-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>Отправить заявку
       </button>
     </div>
 
     <div class="modal-success" id="modalSuccess">
-      <div class="modal-success-icon">✅</div>
+      <div class="modal-success-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="20 6 9 17 4 12"/></svg></div>
       <h3>Заявка принята!</h3>
       <p>Мы свяжемся с вами в течение 15 минут и пришлём точный расчёт стоимости.</p>
     </div>
@@ -2351,6 +2429,9 @@ footer {
 /* ══ CONFIG ══ */
 const BOT_TOKEN = '8783499914:AAG9YnVFb3lr954E4Y-4EtEe5h0stkoY4z8';
 const CHAT_ID   = '7399321088';
+
+const ROCKET_SVG = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="M12 15c-1.5-1.5-3-3-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>';
+const SPINNER_SVG = '<span class="icon-spin" aria-hidden="true"></span>';
 
 /* ══ GLOBAL FORM STATE ══ */
 var _formState = { vid: '', volume: '' };
@@ -2500,7 +2581,7 @@ function openModal(source) {
   document.getElementById('modalError').style.display    = 'none';
 
   var btn = document.getElementById('modalSubmitBtn');
-  btn.textContent = '🚀 Отправить заявку';
+  btn.innerHTML = ROCKET_SVG + 'Отправить заявку';
   btn.disabled = false;
 
   document.getElementById('modalOverlay').classList.add('open');
@@ -2558,7 +2639,7 @@ async function submitModal() {
   var tg = tgRaw;
   if (tg && !tg.startsWith('@')) tg = '@' + tg;
 
-  btn.innerHTML = '⏳ Отправляем...';
+  btn.innerHTML = SPINNER_SVG + 'Отправляем...';
   btn.disabled = true;
 
   var now  = new Date();
@@ -2625,7 +2706,7 @@ async function submitModal() {
       : 'Ошибка отправки: ' + (e.message || 'нет соединения');
     errEl.textContent = msg;
     errEl.style.display = 'block';
-    btn.innerHTML = '🚀 Отправить заявку';
+    btn.innerHTML = ROCKET_SVG + 'Отправить заявку';
     btn.disabled  = false;
   }
 }
