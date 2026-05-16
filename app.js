@@ -623,6 +623,56 @@ addArrows('reviewsWrap',   'reviewsGrid',        '.review-card');
   });
 })();
 
+/* ══ MOBILE CAROUSEL AUTO-SCROLL ══ */
+(function () {
+  // Only the mobile breakpoint flips these grids into horizontal scroll snaps.
+  // Above 600px they're regular grids — leave them alone.
+  if (window.matchMedia('(min-width: 601px)').matches) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var TICK = 4200;       // ms between auto-advances
+  var RESUME_DELAY = 3500; // ms of inactivity before auto-scroll resumes after user touch
+
+  var carousels = document.querySelectorAll(
+    '.benefits-grid, .offer-grid, .reviews-grid, .portfolio-carousel'
+  );
+
+  carousels.forEach(function (el) {
+    var paused = false;
+    var resumeTimer = null;
+
+    function advance() {
+      if (paused) return;
+      var maxScroll = el.scrollWidth - el.clientWidth;
+      // If we're effectively at the end (within 8px), loop back to start
+      if (el.scrollLeft >= maxScroll - 8) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: el.clientWidth, behavior: 'smooth' });
+      }
+    }
+
+    var interval = setInterval(advance, TICK);
+
+    function pause() {
+      paused = true;
+      if (resumeTimer) clearTimeout(resumeTimer);
+      resumeTimer = setTimeout(function () { paused = false; }, RESUME_DELAY);
+    }
+
+    // Pause on any user interaction with the strip
+    el.addEventListener('touchstart', pause, { passive: true });
+    el.addEventListener('wheel', pause, { passive: true });
+    // Also pause when the user scrolls the strip directly (drag, swipe)
+    var scrollTimer = null;
+    el.addEventListener('scroll', function () {
+      pause();
+      if (scrollTimer) clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(function () {}, 100);
+    }, { passive: true });
+  });
+})();
+
 /* ══ FOOTER LOGO — trigger spin + wobble when scrolled into view ══ */
 (function () {
   var logo = document.querySelector('.footer-logo-img');
