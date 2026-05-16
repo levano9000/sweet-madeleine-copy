@@ -622,3 +622,62 @@ addArrows('reviewsWrap',   'reviewsGrid',        '.review-card');
     });
   });
 })();
+
+/* ══ HERO QUOTE FORM — product cards, qty chips, live price ══ */
+(function () {
+  var cards = document.querySelectorAll('.product-card');
+  var chips = document.querySelectorAll('.qty-chip');
+  var custom = document.getElementById('heroVolume');
+  var vid = document.getElementById('heroVid');
+  var priceEl = document.getElementById('pricePreview');
+  if (!cards.length || !chips.length || !custom || !vid || !priceEl) return;
+
+  // [minQty, ₽/шт] tiers — picks the highest tier ≤ qty
+  var TIERS = {
+    regular: [[10,15],[50,12],[100,10],[250,8],[500,7],[1000,6]],
+    '3d':    [[10,35],[50,28],[100,25],[250,22],[500,20],[1000,18]]
+  };
+  var state = { key: 'regular', qty: 100 };
+
+  function recalc() {
+    var tiers = TIERS[state.key];
+    var perUnit = tiers[0][1];
+    for (var i = 0; i < tiers.length; i++) {
+      if (state.qty >= tiers[i][0]) perUnit = tiers[i][1];
+    }
+    var total = state.qty * perUnit;
+    priceEl.textContent = '~' + total.toLocaleString('ru-RU') + ' ₽';
+    priceEl.classList.add('is-bump');
+    setTimeout(function () { priceEl.classList.remove('is-bump'); }, 200);
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      cards.forEach(function (c) { c.classList.remove('is-active'); });
+      card.classList.add('is-active');
+      state.key = card.dataset.key;
+      vid.value = card.dataset.product;
+      recalc();
+    });
+  });
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      chips.forEach(function (c) { c.classList.remove('is-active'); });
+      chip.classList.add('is-active');
+      state.qty = parseInt(chip.dataset.qty, 10);
+      custom.value = state.qty;
+      recalc();
+    });
+  });
+
+  custom.addEventListener('input', function () {
+    var v = parseInt(custom.value, 10);
+    if (!isFinite(v) || v < 10) return;
+    chips.forEach(function (c) { c.classList.remove('is-active'); });
+    state.qty = v;
+    recalc();
+  });
+
+  recalc();
+})();
