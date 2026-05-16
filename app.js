@@ -623,6 +623,21 @@ addArrows('reviewsWrap',   'reviewsGrid',        '.review-card');
   });
 })();
 
+/* ══ FOOTER LOGO — trigger spin + wobble when scrolled into view ══ */
+(function () {
+  var logo = document.querySelector('.footer-logo-img');
+  if (!logo || !('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('is-active');
+        io.disconnect();
+      }
+    });
+  }, { threshold: 0.4 });
+  io.observe(logo);
+})();
+
 /* ══ QUOTE FORMS — product cards, qty chips (hero + bottom) ══ */
 (function () {
   function wireForm(opts) {
